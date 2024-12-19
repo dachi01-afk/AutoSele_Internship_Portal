@@ -4,7 +4,7 @@
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
-    "test": "mocha test --no--timeout"
+    "test": "mocha tests/internPage.test.js --no--timeout"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +13,7 @@
   "dependencies": {
     "chai": "^4.2.0",
     "chromedriver": "^131.0.3",
+    "dotenv": "^16.4.7",
     "mocha": "^11.0.1",
     "mochawesome": "^7.1.3",
     "selenium-webdriver": "^4.27.0"

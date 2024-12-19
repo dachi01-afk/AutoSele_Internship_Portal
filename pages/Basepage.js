@@ -1,69 +1,50 @@
-require('chromedriver');
-const { By, until } = require('selenium-webdriver');
-var webdriver = require('selenium-webdriver');
-var driver = new webdriver.Builder()
-    .forBrowser(webdriver.Browser.CHROME)
-    .build();
-
-driver.manage().setTimeouts({implicit: (10000)});
-
-class BasePage{
-
-    constructor(){
-        global.driver = driver;
+const {By} = require('selenium-webdriver');
+class BasePage {
+    constructor(driver) {
+        this.driver = driver;
+    }
+    // clck element
+    async clickElement(locator) {
+        const element = await this.driver.findElement(locator);
+        await element.click();
     }
 
-    // get url
-    async url(URL){
-        await driver.manage().window().maximize();
-        await driver.get(URL);
+    // Find element
+    async findElementInput(locator, text) {
+        const element = await this.driver.findElement(locator);
+        await element.sendKeys(text);
     }
 
-    // get element
-    async findElement(locator){
-        return await driver.findElement(locator);
+    // Close browser
+    async closeBrowser() {
+        return await this.driver.quit();
     }
 
-    async findwaitgetElement (locator) {
-        return await driver.wait(until.elementLocated(By.xpath(locator)), 10000);
-    }
-
-    // close browser
-    async closeBrowser(){
-        return await driver.quit();
-    }
-
-    // get title
+    // Get page title
     async findTitle() {
-        return await driver.getTitle()
-    };
+        return await this.driver.getTitle();
+    }
 
-    // get currentURL
+    // Get current URL
     async findCurrentURL() {
-        return await driver.getCurrentUrl();
+        return await this.driver.getCurrentUrl();
     }
 
-    // get Text
+    // Get text of an element
     async findText(locator) {
-        const GetText = await this.findElement(By.xpath(locator));
-        return GetText.getText();
-        
+        const element = await this.findElement(locator);
+        return await element.getText();
     }
 
-    // get wait to text
-    async findwaitText (locator) {
-        const GetText = await this.findwaitgetElement(locator);
-        return GetText.getText();
+    // Get alert text
+    async getAlertText() {
+        let alert = await this.driver.switchTo().alert();
+        return await alert.getText();
     }
 
-    async gettextalert () {
-        let alert = await driver.switchTo().alert();
-        await alert.getText();
+    // Sleep for a specified time
+    async sleep(ms = 2000) {
+        await this.driver.sleep(ms);
     }
-
-    async sleep() {
-        await driver.sleep(3000);
-    }
-}
-
+};
 module.exports = BasePage;

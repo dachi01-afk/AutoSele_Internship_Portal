@@ -1,20 +1,27 @@
 const BasePage = require('./BasePage');
-const { By, Key } = require('selenium-webdriver');
+const {By} = require('selenium-webdriver');
 
 class InternPage extends BasePage {
 
-    async getURL(URL){
-        await this.url(URL)
+    constructor(driver) {
+        super(driver);
+        this.emailField = By.name('email');
+        this.passwordField = By.name('password');
+        this.SignIn = By.xpath('/html/body/div/div/div[1]/form/button');
     }
 
-    async loginIntern (email, password) {
-        const Username = await this.findElement(By.name('email'));
-        await Username.sendKeys(email);
-        const Password = await this.findElement(By.name('password'));
-        await Password.sendKeys(password);
-        const Signin = await this.findElement(By.xpath('/html/body/div/div/div[1]/form/button'));
-        await Signin.click();
+    async inputEmail(email) {
+        await this.findElementInput(this.emailField, email);
     }
+
+    async inputPassword(password) {
+        await this.findElementInput(this.passwordField, password);
+    }
+
+    async buttonSignIn () {
+        await this.clickElement(this.SignIn);
+    }
+
 }
 
 module.exports = InternPage;
