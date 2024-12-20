@@ -23,19 +23,14 @@ describe("Test Intern Page", function () {
         await internPage.inputPassword(config.credentials.Password);
         await internPage.buttonSignIn();
         
-        let actualUrl = await internPage.findCurrentURL();
-        let expectUrl = "Magang yang Luar Biasa di CBN Group";
-        expect(actualUrl).to.equal(expectUrl);
+        let actualText = await internPage.getSuccessMessageText();
+        expect(actualText).to.equal('Beranda');
         });
-
-        
-
 
     });
     
 
     afterEach(async () => {
-        await internPage.sleep();
         await internPage.closeBrowser();
     });
 });

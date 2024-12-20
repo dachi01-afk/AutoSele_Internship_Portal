@@ -1,12 +1,12 @@
-const {By} = require('selenium-webdriver');
+const { until } = require("selenium-webdriver");
 class BasePage {
     constructor(driver) {
         this.driver = driver;
     }
     // clck element
     async clickElement(locator) {
-        const element = await this.driver.findElement(locator);
-        await element.click();
+        const element = await this.driver.wait(until.elementLocated(locator),10000);
+        return await element.click();
     }
 
     // Find element
@@ -32,7 +32,7 @@ class BasePage {
 
     // Get text of an element
     async findText(locator) {
-        const element = await this.findElement(locator);
+        const element = await this.driver.wait(until.elementLocated(locator),10000);
         return await element.getText();
     }
 
