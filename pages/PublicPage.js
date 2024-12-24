@@ -18,12 +18,25 @@ class PublicPage extends BasePage {
         this.locatorTL        = By.xpath('/html/body/nav/div/div[1]/div[1]/a[2]/span');
         this.locatorFilterP   = By.xpath('/html/body/div/div/div/div/div[2]/div[1]/div/div[3]/div[1]/div/div[2]/label');
         this.locatorFilterL   = By.xpath('/html/body/div/div/div/div/div[2]/div[1]/div/div[3]/div[2]/div/div[2]/label');
+        this.locatorJobTL1    = By.xpath('/html/body/div/div/div/div/div[2]/div[2]/div/div[2]/a[1]');
+        this.locatorback      = By.xpath('/html/body/div/div/a');
+
+        // locator Halaman Perusanan
+        this.locatorPerusahaan= By.xpath('/html/body/nav/div/div[1]/div[1]/a[3]');
 
         // locator Halaman Universitas
         this.locatorUnv       = By.xpath('/html/body/nav/div/div[1]/div[1]/a[4]/span');
+        this.detailUNVunpri   = By.xpath('//*[@id="splide51-slide01"]/div');
+        this.locatorDtlUNV01  = By.xpath('/html/body/div/div/div[3]/div[1]/div/div/div/a');
 
+        // locator Halaman Tentang CBn
+        this.locatorCbn       = By.xpath('/html/body/nav/div/div[1]/div[1]/a[5]/span');
+;
         // locator assertion by text
-        this.HasilFilterTL    = By.xpath('/html/body/div/div/div/div/div[2]/div[2]/div/div[2]/a[1]');
+        this.detailUNVbyProv  = By.xpath('/html/body/div/div/div[3]/div[1]/p');
+
+        // locator search
+        this.Search           = By.xpath('//input[@id="search"]');
     }
 
     //Halaman Beranda
@@ -71,41 +84,45 @@ class PublicPage extends BasePage {
         await this.clickElement(this.locatorFilterL);
     }
 
+    async clickJobTL1() {
+        //pilih job pertama untuk cek detail
+        await this.clickElement(this.locatorJobTL1);
+    }
+
+    async buttonKembali () {
+        await this.clickElement(this.locatorback);
+    }
+
+    // Halaman Perusahaan
+    async buttonPerusahaan() {
+        await this.clickElement(this.locatorPerusahaan);
+    }
+
 
     // Halaman Universitas
     async buttonUniversitas () {
         await this.clickElement(this.locatorUnv);
     }
 
-    async cekdetailUniv() {
-        await this.clickElement(By.xpath('//*[@id="splide11-slide01"]/div'));
+    async cekdetailUniv01() {
+        await this.clickElement(this.locatorDtlUNV01);
     }
 
-    async clickTentangCBN () {
-        const clickTentangCbn = await this.clickElement(By.xpath('/html/body/nav/div/div[1]/div[1]/a[5]/span'));
-        await clickTentangCbn.click();
-    }
 
-    async jobafterFilter() {
-        const jobs = await this.clickElement(By.xpath('/html/body/div/div/div/div/div[2]/div[2]/div/div[2]/a[2]'));
-        await jobs.click();
-    }
-
-    async search (value) {
-        const search = await this.findElement(By.xpath('//input[@id="search"]'));
-        await search.sendKeys(value);
-    }
-
-    async buttonKembali () {
-        const back = await this.clickElement(By.xpath('/html/body/div/div/a'));
-        await back.click();
+    // Halaman Tentang CBN
+    async tentangCBN () {
+        await this.clickElement(this.locatorCbn);
     }
 
     // Asertion By Text
-    async assHasilFilterTL() {
-        await this.findText(this.HasilFilterTL);
+    async assUnivByProv() {
+        await this.findText(this.detailUNVbyProv);
     }
 
+    // search 
+    async inputSearch(testSearch) {
+        await this.findElementInput(this.Search, testSearch);
+    }
 }
 
 module.exports = PublicPage;

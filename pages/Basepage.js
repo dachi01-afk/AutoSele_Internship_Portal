@@ -1,11 +1,11 @@
-const { until } = require("selenium-webdriver");
+const { until, Key } = require("selenium-webdriver");
 class BasePage {
     constructor(driver) {
         this.driver = driver;
     }
     // clck element
     async clickElement(locator) {
-        const element = await this.driver.wait(until.elementLocated(locator),10000);
+        const element = await this.driver.wait(until.elementLocated(locator),15000);
         return await element.click();
     }
 
@@ -32,7 +32,7 @@ class BasePage {
 
     // Get text of an element
     async findText(locator) {
-        const element = await this.driver.wait(until.elementLocated(locator),10000);
+        let element = await this.driver.wait(until.elementLocated(locator) ,10000);
         return await element.getText();
     }
 

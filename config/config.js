@@ -10,6 +10,10 @@ module.exports = {
         emailDepartmenAdmin :process.env.DEPARTMENT_ADMIN,
         emailUnvSupervisor  :process.env.UNV_SUPERVISOR,
         emailMentor         :process.env.MENTOR,
-        Password            :process.env.PASSWORD
+        Password            :process.env.PASSWORD,
+
+        // fake email
+        FKemail             :process.env.EmailFake,
+        Fkpassword          :process.env.PWFake
     }
 }

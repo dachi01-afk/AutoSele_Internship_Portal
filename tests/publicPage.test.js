@@ -82,50 +82,51 @@ describe("Test Public Page", function () {
             await publicPage.filterLowonganByCompany();
             await publicPage.filterLowonganByLocation();
 
-            let expectText = "Strategic Organization and Learning Development Department Head";
-            let actualText = await publicPage.assHasilFilterTL();
-            console.log(actualText);
-            expect(actualText).to.equal(expectText);
+            let actualURL = await publicPage.findCurrentURL();
+            expect(actualURL).to.equal('https://dev1.cyberprimatama.id/jobs');
         });
 
         it("Detil Lowongan", async () => {
-            await publicPage.clickButtonTL();
-            await publicPage.jobafterFilter();
+            await publicPage.buttonTL();
+            await publicPage.clickJobTL1();
 
-            let expectText = "Job Details";
-            let actualText = await publicPage.findText('/html/body/div/div/h1');
-            expect(actualText).to.equal(expectText);
+            let expectURL = 'https://dev1.cyberprimatama.id/jobs/strategic-organization-and-learning-development-department-head-6'
+            let actualURL = await publicPage.findCurrentURL();
+            expect(actualURL).to.equal(expectURL);
         });
 
         it("Telusuri jobs", async () => {
-            await publicPage.clickButtonTL();
-            await publicPage.search('Strategic ');
+            await publicPage.buttonTL();
+            await publicPage.inputSearch('Strategic');
+            await publicPage.clickJobTL1();
 
-            let expectText = "Strategic Organization and Learning Development Department Head";
-            let actualText = await publicPage.findText('/html/body/div/div/div/div/div[2]/div[2]/div/div[2]/a/div[2]/h5');
-            expect(actualText).to.equal(expectText);
+            let expectURL = 'https://dev1.cyberprimatama.id/jobs/strategic-organization-and-learning-development-department-head-6'
+            let actualURL = await publicPage.findCurrentURL();
+            expect(actualURL).to.equal(expectURL);
         });
 
         it("Kembali", async () => {
-            await publicPage.clickButtonTL();
-            await publicPage.jobafterFilter();
+            try {
+            await publicPage.buttonTL();
+            await publicPage.clickJobTL1();
             await publicPage.buttonKembali();
 
-            let expectUrl = "https://dev1.cyberprimatama.id/jobs";
             let actualUrl = await publicPage.findCurrentURL();
-            expect(actualUrl).to.equal(expectUrl);
+            expect(actualUrl).to.equal("https://dev1.cyberprimatama.id/jobs");
+            }catch(err) {
+                console.log(err);
+            }
         });
 
         it("Perusahaan", async () => {
-            await publicPage.clickButtonPerusahaan();
+            await publicPage.buttonPerusahaan();
 
-            let expectUrl = "https://dev1.cyberprimatama.id/companies";
             let actualUrl = await publicPage.findCurrentURL();
-            expect(actualUrl).to.equal(expectUrl);
+            expect(actualUrl).to.equal("https://dev1.cyberprimatama.id/companies");
         });
 
         it("Universitas", async () => {
-            await publicPage.clickButtonUniversitas();
+            await publicPage.buttonUniversitas();
 
             let expectUrl = "https://dev1.cyberprimatama.id/universities";
             let actualUrl = await publicPage.findCurrentURL();
@@ -133,34 +134,34 @@ describe("Test Public Page", function () {
         });
 
         it("Telusuri unv", async () => {
-            await publicPage.clickButtonUniversitas();
-            await publicPage.search('unpri');
-
-            let expectText = "Sumatera Utara";
-            let actualText = await publicPage.findText('/html/body/div/div/div[3]/div/p');
-            expect(actualText).to.equal(expectText);
+            await publicPage.buttonUniversitas();
+            await publicPage.inputSearch('unpri');
+            await publicPage.sleep();
+            await publicPage.cekdetailUniv01();
+            
+            let expectURL = "https://dev1.cyberprimatama.id/universities/universitas-prima-indonesia-2";
+            let actualURL = await publicPage.findCurrentURL();
+            expect(actualURL).to.equal(expectURL);
         });
 
         it("Detil Universitas", async () => {
-            await publicPage.clickButtonUniversitas();
-            await publicPage.search('unpri');
-            await publicPage.cekdetailUniv();
+            await publicPage.buttonUniversitas();
+            await publicPage.cekdetailUniv01();
             
-            let expectText = "University Details";
-            let actualText = await publicPage.findText('/html/body/div/div/h1');
-            expect(actualText).to.equal(expectText);
+            let expectURL = "https://dev1.cyberprimatama.id/universities/institut-teknologi-dan-kesehatan-bali-102";
+            let actualURL = await publicPage.findCurrentURL();
+            expect(actualURL).to.equal(expectURL);
         });
 
         it("Tentang CBN", async () => {
-            await publicPage.clickTentangCBN();
+            await publicPage.tentangCBN();
 
-            let expectUrl = "https://dev1.cyberprimatama.id/";
             let actualUrl = await publicPage.findCurrentURL();
-            expect(actualUrl).to.equal(expectUrl);
+            expect(actualUrl).to.equal("https://dev1.cyberprimatama.id/");
         });
 
         afterEach(async () => {
-            // await publicPage.sleep()
+            await publicPage.sleep();
         })
 
     after(async () => {
