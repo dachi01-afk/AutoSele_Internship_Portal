@@ -1,7 +1,7 @@
 const {describe, before, beforeEach, afterEach, after, it} = require("mocha");
-const PublicPage = require("../pages/PublicPage");
-const {getDriver}= require('../driver/webdriver');
-const config = require('../config/config');
+const PublicPage = require("../../pages/PublicPage");
+const {getDriver}= require('../../driver/webdriver');
+const config = require('../../config/config');
 const chai = require('chai');
 const expect = chai.expect;
 

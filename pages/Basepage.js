@@ -15,6 +15,13 @@ class BasePage {
         await element.sendKeys(text);
     }
 
+    // edit elemen input
+    async editElementInput(locator, text) {
+        const element = await this.driver.findElement(locator);
+        await element.clear()
+        await element.sendKeys(text);
+    }
+
     // Close browser
     async closeBrowser() {
         return await this.driver.quit();

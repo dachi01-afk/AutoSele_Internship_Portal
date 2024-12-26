@@ -1,66 +1,51 @@
 const BasePage = require('./BasePage');
-const {By} = require('selenium-webdriver');
+const {By, Key} = require('selenium-webdriver');
 
 class InternPage extends BasePage {
 
     constructor(driver) {
         super(driver);
-
-        // Locator Login
-        this.Email          = By.name('email');
-        this.Password       = By.name('password');
-        this.Submit         = By.xpath('//button[@type="submit"]');
-        // locator Register
-        this.namaLengkap    = By.name('full_name');
-        this.jenisKelaminL  = By.id('gender-male');
-        this.jenisKelaminP  = By.id('gender-female');
-        this.noTelp         = By.name('phone_number');
-        this.universitas    = By.name('university_slug');
-
-        // locator forgot password
-        this.lupaPW         = By.xpath('/html/body/div/div/div[1]/form/a');
-
-        // Locator assertion text
-        this.locatorBeranda = By.xpath('/html/body/nav/div/div[1]/div[1]/a[1]/span'); // -> Beranda
-        this.locatorRegist1 = By.xpath('/html/body/div/div/div/div/h1');  // -> Berhasil Mendaftar
-        this.locatorRegist0 = By.xpath('/html/body/div/div/div[2]/form/small') // -> Email sudah ada sebelumnya.
-        this.locatorConfirPW= By.xpath('/html/body/div/div') 
     }
 
 
     // Login
     async inputEmail(email) {
-        await this.findElementInput(this.Email, email);
+        await this.findElementInput(By.name('email'), email);
     }
 
     async inputPassword(password) {
-        await this.findElementInput(this.Password, password);
+        await this.findElementInput(By.name('password'), password);
     }
 
     async buttonSubmit () {
-        await this.clickElement(this.Submit);
+        await this.clickElement(By.xpath('//button[@type  ="submit"]'));
+    }
+
+    async Login(email, password) {
+        await this.findElementInput(By.name('email'), email)
+        await this.findElementInput(By.name('password'), password, Key.RETURN)
     }
 
     // Register
     async inputNamaLengkap(fullName) {
-        await this.findElementInput(this.namaLengkap, fullName)
+        await this.findElementInput(By.name('full_name'), fullName)
     }
 
     async inputJenisKelamin(select) {
         if(select == 1){
-            await this.clickElement(this.jenisKelaminL)
+            await this.clickElement(By.id('gender-male'))
         }else if(select == 2) {
-            await this.clickElement(this.jenisKelaminP)
+            await this.clickElement(By.id('gender-female'))
         }
     }
 
     async inputNoTelp(number) {
-        await this.findElementInput(this.noTelp, number)
+        await this.findElementInput(By.name('phone_number'), number)
     }
 
     async inputUniversitas(univ) {
-        await this.clickElement(this.universitas);
-        await this.findElementInput(this.universitas, univ)
+        await this.clickElement(By.name('university_slug'));
+        await this.findElementInput(By.name('university_slug'), univ)
         await this.clickElement(By.xpath('/html/body/div/div/div[2]/form/div[4]/div/ul/li'));
 
     }
@@ -76,25 +61,98 @@ class InternPage extends BasePage {
 
     // Forgot passord
     async buttonLupaPW() {
-        await this.clickElement(this.lupaPW);
+        await this.clickElement(By.xpath('/html/body/div/div/div[1]/form/a'));
+    }
+
+    // Navbar
+    async buttonProfil() {
+        await this.clickElement(By.xpath('//button[@id="button-dropdown-profile"]'));
+    }
+
+    async buttonKeluar() {
+        await this.clickElement(By.xpath('//*[@id="dropdown-profile"]/ul/li[5]/button'));
+    }
+
+    async buttonNotif() {
+        await this.clickElement(By.xpath('/html/body/nav/div/div[2]/div/div[1]/button'));
+    }
+
+    async buttonRiwayatLamaran() {
+        await this.clickElement(By.xpath('//*[@id="dropdown-profile"]/ul/li[3]/a'));
+    }
+
+    async buttonToProfil() {
+        await this.clickElement(By.xpath('//*[@id="dropdown-profile"]/ul/li[1]/a'));
+    }
+
+    async buttonToBeranda() {
+        await this.clickElement(By.xpath('//*[@id="dropdown-profile"]/ul/li[2]/a'));
+    }
+
+    async buttonNotif02() {
+        await this.clickElement(By.xpath('/html/body/nav/div/div[2]/div/div[1]/div/div[2]/div/div[2]/div/div/h5'));
+    }
+
+    async buttonAllNotif() {    
+        await this.clickElement(By.xpath('/html/body/nav/div/div[2]/div/div[1]/div/div[1]/p'));
+    }
+
+    // Job Application History
+    async buttonRiwayatHlmn() {
+        await this.clickElement(By.xpath('//*[@id="dropdown-profile"]/ul/li[3]/a'));
+    }
+
+    async buttonDashboard() {
+        await this.clickElement(By.xpath('/html/body/div/div/div/div[2]/div/table/tbody/tr/td[5]/div/a'));
+    }
+
+    // Profil
+    async buttonEditProfil() {
+        await this.clickElement(By.xpath('/html/body/div/div[1]/div/div[2]/div/div[1]/div[1]/button'))
+    }
+
+    async editNamaLengkap(fullName) {
+        await this.editElementInput(By.name('full_name'), fullName)
+    }
+
+    async editNoTelp(number) {
+        await this.editElementInput(By.name('phone_number'), number)
     }
 
 
     // assertion by text
     async assText() {
-       return await this.findText(this.locatorBeranda);
+        // -> Beranda
+       return await this.findText(By.xpath('/html/body/nav/div/div[1]/div[1]/a[1]/span'));
     }
 
     async assRS1() {
-       return await this.findText(this.locatorRegist1);
+        // -> Berhasil Mendaftar
+       return await this.findText(By.xpath('/html/body/div/div/div/div/h1'));
     }
 
     async assRS0() {
-       return await this.findText(this.locatorRegist0);
+        // -> Email sudah ada sebelumnya.
+       return await this.findText(By.xpath('/html/body/div/div/div[2]/form/small'));
     }
 
     async confirPW() {
-        return await this.findText(this.locatorConfirPW)
+        return await this.findText(By.xpath('/html/body/div/div'))
+    }
+
+    async assNotif() {
+        // -> Notifikasi
+        return await this.findText(By.xpath('/html/body/nav/div/div[2]/div/div[1]/div/div[1]/h4'));
+    }
+
+    async assEditName() {
+        // -> Muhammad Rasyid Arifin edit
+        return await this.findText(By.xpath('/html/body/div/div[1]/div/div[2]/div/div[1]/div[1]/p'));
+    }
+
+    async asserrNumb() {
+        // ->Nomor telepon maksimal berisi 15 karakter.
+        return await this.findText(By.xpath('//*[@id="form-add-modal"]/div/form/div[1]/div[2]/small'));
     }
 
 }
