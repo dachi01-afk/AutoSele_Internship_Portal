@@ -1,7 +1,11 @@
-const { until, Key } = require("selenium-webdriver");
+const { until } = require("selenium-webdriver");
 class BasePage {
     constructor(driver) {
         this.driver = driver;
+    }
+
+     async Get(url) {
+        await this.driver.get(url);
     }
     // clck element
     async clickElement(locator) {

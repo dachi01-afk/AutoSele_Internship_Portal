@@ -18,7 +18,7 @@ describe("Test Register", function () {
     })
 
     it("Register skenarion 1 -> Register Succes", async () => {
-        await  internPage.Register('User test 06', 1, '082234566543', 'Aqua Cybro', 'User06', '1234567890');
+        await  internPage.Register('User test 07', 1, '082234566543', 'Aqua Cybro', 'User07', '1234567890');
         await internPage.buttonSubmit()
 
         let actualText = await internPage.assRS1();

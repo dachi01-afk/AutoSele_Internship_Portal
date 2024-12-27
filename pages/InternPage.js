@@ -7,7 +7,6 @@ class InternPage extends BasePage {
         super(driver);
     }
 
-
     // Login
     async inputEmail(email) {
         await this.findElementInput(By.name('email'), email);
@@ -23,7 +22,8 @@ class InternPage extends BasePage {
 
     async Login(email, password) {
         await this.findElementInput(By.name('email'), email)
-        await this.findElementInput(By.name('password'), password, Key.RETURN)
+        await this.findElementInput(By.name('password'), password)
+        await this.buttonSubmit();
     }
 
     // Register
@@ -64,13 +64,17 @@ class InternPage extends BasePage {
         await this.clickElement(By.xpath('/html/body/div/div/div[1]/form/a'));
     }
 
-    // Navbar
+    // Navbar // Job Application History
     async buttonProfil() {
         await this.clickElement(By.xpath('//button[@id="button-dropdown-profile"]'));
     }
 
     async buttonKeluar() {
         await this.clickElement(By.xpath('//*[@id="dropdown-profile"]/ul/li[5]/button'));
+    }
+
+    async buttonNavDashboard() {
+        await this.clickElement(By.xpath('//*[@id="dropdown-profile"]/ul/li[4]/a'))
     }
 
     async buttonNotif() {
@@ -95,11 +99,6 @@ class InternPage extends BasePage {
 
     async buttonAllNotif() {    
         await this.clickElement(By.xpath('/html/body/nav/div/div[2]/div/div[1]/div/div[1]/p'));
-    }
-
-    // Job Application History
-    async buttonRiwayatHlmn() {
-        await this.clickElement(By.xpath('//*[@id="dropdown-profile"]/ul/li[3]/a'));
     }
 
     async buttonDashboard() {
