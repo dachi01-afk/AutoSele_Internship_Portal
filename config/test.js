@@ -1,4 +1,4 @@
-const config = require('./config/config')
+const config = require('./config')
 
 console.log(config.credentials.emailDepartmenAdmin);
 console.log(config.credentials.FKemail);

@@ -10,7 +10,6 @@ describe("Test Intern Page", function () {
     let internPage;
 
     // Login
-    describe("Test Login", function () {
         beforeEach(async () => {
             driver = await getDriver();
             internPage = new InternPage(driver)
@@ -50,8 +49,6 @@ describe("Test Intern Page", function () {
 
         let actualURL = await internPage.findCurrentURL();
         expect(actualURL).to.equal(`${config.baseURL}login`);
-    });
-        
     });
     
     afterEach(async () => {
