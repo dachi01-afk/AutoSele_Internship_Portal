@@ -1,5 +1,6 @@
 const {describe, before, beforeEach, afterEach, after, it} = require("mocha");
-const InternPage = require("../../pages/InternPage");
+const LocatorPage = require("../../pages/LocatorPage");
+const Ass = require("../../utils/Assertion");
 const {getDriver}= require('../../driver/webdriver');
 const config = require('../../config/config');
 const chai = require('chai');
@@ -8,86 +9,88 @@ const expect = chai.expect;
 
 describe('Test Dashboard', function() {
     let driver;
-    let internPage;
+    let locatorPage;
+    let ass;
 
      beforeEach(async () => {
         driver = await getDriver();
-        internPage = new InternPage(driver)
+        locatorPage = new LocatorPage(driver)
+        ass = new Ass(driver)
         await driver.manage().window().maximize();
         await driver.get(`${config.baseURL}login`);
-        await internPage.inputEmail(config.credentials.emailIntern);
-        await internPage.inputPassword(config.credentials.Password);
-        await internPage.buttonSubmit();
-        await internPage.buttonProfil();
-        await internPage.buttonNavDashboard()
+        await locatorPage.inputEmail(config.credentials.emailIntern);
+        await locatorPage.inputPassword(config.credentials.Password);
+        await locatorPage.buttonSubmit();
+        await locatorPage.buttonProfil();
+        await locatorPage.buttonNavDashboard()
         
     });
     
     it('Lihat Proyek Terkini', async () => {
-        let actualText = await internPage.assdataProjekTerkini();
+        let actualText = await ass.assdataProjekTerkini();
         expect(actualText).to.equal(actualText)
     });
     
     it('Lihat Daftar Tugas', async () => {
-        let actualText = await internPage.assdataTugas();
+        let actualText = await ass.assdataTugas();
         expect(actualText).to.equal(actualText)
     });
 
     it('Lihat Logbook Hari Ini', async () => {
-        let actualText = await internPage.assdataLogbook();
+        let actualText = await ass.assdataLogbook();
         expect(actualText).to.equal(actualText)
      });
 
     it('Lihat Mentor Proyek Terkini', async () => {
-        let actualText = await internPage.assdataMentor();
+        let actualText = await ass.assdataMentor();
         expect(actualText).to.equal(actualText)
     });
 
     it('Redirect ke halaman Proyek', async () => {
-        await internPage.lihatSemuaProyek();
+        await locatorPage.lihatSemuaProyek();
 
-        let actualURL = await internPage.findCurrentURL()
+        let actualURL = await locatorPage.findCurrentURL()
         expect(actualURL).to.equal('https://dev1.cyberprimatama.id/student/dashboard/projects')
     });
 
     it('Redirect ke halaman Logbook -> Atur Logbook', async () => {
-        await internPage.aturLogbook();
+        await locatorPage.aturLogbook();
 
-        let actualURL = await internPage.findCurrentURL()
+        let actualURL = await locatorPage.findCurrentURL()
         expect(actualURL).to.equal('https://dev1.cyberprimatama.id/student/dashboard/logbooks')
     });
 
     it('Redirect ke halaman Logbook -> + Tambah Logbook', async () => {
-        await internPage.tambahLogbook();
+        await locatorPage.tambahLogbook();
 
-        let actualURL = await internPage.findCurrentURL()
+        let actualURL = await locatorPage.findCurrentURL()
         expect(actualURL).to.equal('https://dev1.cyberprimatama.id/student/dashboard/logbooks')
     });
 
     it('Redirect ke halaman Detil Proyek', async () => {
-        await internPage.projekTerkini();
+        await locatorPage.projekTerkini();
 
-        let actualURL = await internPage.findCurrentURL()
+        let actualURL = await locatorPage.findCurrentURL()
         expect(actualURL).to.equal('https://dev1.cyberprimatama.id/student/dashboard/projects/hris-x-cbn-internship-portal-5')
     });
 
     it('Tambah Tugas', async () => { 
-        await internPage.projekTerkini()
-        await internPage.addTugas()
-        await internPage.tambahDataTugas(1, 'Task 88', 'testing input catatan tugas', 2);
-        await internPage.buttonSubmit();
-        await internPage.sleep();
+        await locatorPage.projekTerkini()
+        await locatorPage.addTugas()
+        await locatorPage.tambahDataTugas(1, 'Task 88', 'testing input catatan tugas', 2);
+        await locatorPage.buttonSubmit();
+        await locatorPage.sleep();
 
-        let actualText = await internPage.assdataTugasNo3();
+        let actualText = await ass.assdataTugasNo3();
         expect(actualText).to.equal('Task 88\nNormal')
-        await internPage.sleep();
-        await internPage.hapusTugasno3();
-        await internPage.sleep();
+        await locatorPage.sleep();
+        await locatorPage.hapusTugasno3();
+        await locatorPage.sleep();
 
     });
 
     afterEach(async () => {
-        await internPage.closeBrowser();
+        await locatorPage.closeBrowser();
     }); 
     
 });

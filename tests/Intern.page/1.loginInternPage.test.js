@@ -1,5 +1,6 @@
 const {describe, before, beforeEach, afterEach, after, it} = require("mocha");
-const InternPage = require("../../pages/InternPage");
+const LocatorPage = require("../../pages/LocatorPage");
+const Ass = require("../../utils/Assertion");
 const {getDriver}= require('../../driver/webdriver');
 const config = require('../../config/config');
 const chai = require('chai');
@@ -7,51 +8,53 @@ const expect = chai.expect;
 
 describe("Test Intern Page", function () {
     let driver;
-    let internPage;
+    let locatorPage;
+    let ass;
 
     // Login
         beforeEach(async () => {
             driver = await getDriver();
-            internPage = new InternPage(driver)
+            locatorPage = new LocatorPage(driver)
+            ass = new Ass(driver)
             await driver.manage().window().maximize();
             await driver.get(`${config.baseURL}login`);
         });
 
     it("Redirect ke halaman Lupa Kata Sandi", async () => {
-        await internPage.buttonLupaPW();
+        await locatorPage.buttonLupaPW();
 
-        let actualURL = await internPage.findCurrentURL();
+        let actualURL = await locatorPage.findCurrentURL();
         expect(actualURL).to.equal('https://dev1.cyberprimatama.id/forgot-password')
     })
 
     it("Berhasil mendapatkan email pengaturan ulang kata sandi", async () => {
-        await internPage.buttonLupaPW();
-        await internPage.inputEmail('User02@gmail.com');
-        await internPage.buttonSubmit();
+        await locatorPage.buttonLupaPW();
+        await locatorPage.inputEmail('User02@gmail.com');
+        await locatorPage.buttonSubmit();
 
-        let actualText= await internPage.confirPW();
+        let actualText= await ass.confirPW();
         expect(actualText).to.equal(actualText)
     })
 
     it ('login skenario 1 -> Login Sukses', async() => {
-        await internPage.inputEmail(config.credentials.emailIntern);
-        await internPage.inputPassword(config.credentials.Password);
-        await internPage.buttonSubmit();
+        await locatorPage.inputEmail(config.credentials.emailIntern);
+        await locatorPage.inputPassword(config.credentials.Password);
+        await locatorPage.buttonSubmit();
 
-        let actualText = await internPage.assText();
+        let actualText = await ass.assText();
         expect(actualText).to.equal('Beranda');
     });
 
     it ('login skenario 2 -> Login Gagal', async() => {
-        await internPage.inputEmail(config.credentials.FKemail);
-        await internPage.inputPassword(config.credentials.Fkpassword);
-        await internPage.buttonSubmit();
+        await locatorPage.inputEmail(config.credentials.FKemail);
+        await locatorPage.inputPassword(config.credentials.Fkpassword);
+        await locatorPage.buttonSubmit();
 
-        let actualURL = await internPage.findCurrentURL();
+        let actualURL = await locatorPage.findCurrentURL();
         expect(actualURL).to.equal(`${config.baseURL}login`);
     });
     
     afterEach(async () => {
-    await internPage.closeBrowser();
+    await locatorPage.closeBrowser();
     });
 });

@@ -4,8 +4,10 @@
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
-    "test": "mocha tests/Intern/*.test.js --parallel --jobs=4 --no--timeout --reporter mochawesome --reporter-option reportDir=./IntershipportalReport,reportFilename=index",
-    "dev": "mocha tests/UniversitySupervisor/1.login.UnvSup.test.js --no-timeout"
+    "dev"     : "mocha tests/**/*test.js --parallel --jobs=4 --no--timeout",
+    "test:Public"   : "mocha tests/Public.page/publicPage.test.js --no-timeout",
+    "test:Intern"   : "mocha tests/Intern.page/*.test.js --parallel --jobs=4  --no-timeout",
+    "test"          : "npm run test:Public && npm run test:Intern && --reporter mochawesome --reporter-option reportDir=./IntershipportalReport,reportFilename=index"
   },
   "keywords": [],
   "author": "",
