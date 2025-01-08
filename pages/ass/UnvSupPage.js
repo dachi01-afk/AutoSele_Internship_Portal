@@ -1,4 +1,4 @@
-const BasePage = require('./BasePage');
+const BasePage = require('../BasePage');
 const {By} = require('selenium-webdriver'); 
 
 class UnvSupPage extends BasePage {
